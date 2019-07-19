@@ -6,10 +6,15 @@
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
 
-uniform vec4 Z_x;
-uniform vec4 Z_y;
-uniform vec4 X_x;
-uniform vec4 X_y;
+uniform vec2 Z_x_a;
+uniform vec2 Z_y_a;
+uniform vec2 X_x_a;
+uniform vec2 X_y_a;
+
+uniform vec2 Z_x_b;
+uniform vec2 Z_y_b;
+uniform vec2 X_x_b;
+uniform vec2 X_y_b;
 
 uniform vec3 delta;
 
@@ -46,6 +51,11 @@ void vertex(){
 }
 
 void fragment(){
+	
+	vec4 Z_x = vec4(Z_x_a,Z_x_b);
+	vec4 Z_y = vec4(Z_y_a,Z_y_b);
+	vec4 X_x = vec4(X_x_a,X_x_b);
+	vec4 X_y = vec4(X_y_a,X_y_b);
 
 	vec2 uv = vec2(0);
 
@@ -120,10 +130,14 @@ void fragment(){
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = SubResource( 1 )
-shader_param/Z_x = Plane( 0, 0.5, 0.5, 1 )
-shader_param/Z_y = Plane( 0, 0.5, 0.5, 1 )
-shader_param/X_x = Vector3( 0, 0, 1 )
-shader_param/X_y = Vector3( 0, 0, 0 )
+shader_param/Z_x_a = Vector2( 0, 1 )
+shader_param/Z_y_a = Vector2( 0, 1 )
+shader_param/X_x_a = Vector2( 0, 1 )
+shader_param/X_y_a = Vector2( 0, 0 )
+shader_param/Z_x_b = Vector2( 1, 1 )
+shader_param/Z_y_b = Vector2( 1, 1 )
+shader_param/X_x_b = Vector2( 1, 1 )
+shader_param/X_y_b = Vector2( 0, 0 )
 shader_param/delta = null
 shader_param/road_texture = ExtResource( 1 )
 
