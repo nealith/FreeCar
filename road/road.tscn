@@ -1,0 +1,135 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://road/assets/road.png" type="Texture" id=1]
+[ext_resource path="res://road/plane.gd" type="Script" id=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform vec4 Z_x;
+uniform vec4 Z_y;
+uniform vec4 X_x;
+uniform vec4 X_y;
+
+uniform vec3 delta;
+
+uniform sampler2D road_texture;
+
+float B_t(vec4 P, float t){
+	return ((1.0-t)*(1.0-t)*(1.0-t)*P.x+3.0*(1.0-t)*(1.0-t)*t*P.y+3.0*(1.0-t)*t*t*P.z+t*t*t*P.w);
+}
+
+float get_t(vec4 P, float a){
+	float t_min = 0.0;
+	float t_max = 1.0;
+
+	float t_c = t_max;
+	float a_t_c = 0.0;
+
+	float i = 0.005;
+
+	while(t_c >= t_min){
+		a_t_c = B_t(P,t_c);
+		
+		if (a_t_c <= a){
+			break;
+		}
+		t_c -= i;
+	}
+
+	return t_c;
+
+}
+
+void vertex(){
+	UV = VERTEX;
+}
+
+void fragment(){
+
+	vec2 uv = vec2(0);
+
+	vec4 c = vec4(0.0);
+
+	if(UV.y > 240.0){
+
+		float y = 240.0-max(UV.y - 240.0,0.0);
+
+// Computing (tx,ty) on texture :
+
+// Operations with Z bézier curve
+
+	// Compute z position on texture giving y
+
+		float t_y = get_t(Z_y,y/240.0);
+		float z = B_t(Z_x,t_y);
+		z*= 540.0; // \"road\" size on texture
+
+	// Add dz to z for speed effect
+
+	// z is ty on the texture
+
+		uv.y = (z+delta.z)/1080.0;
+
+// Compute x according to y position with compression
+
+	// y = 0 : compression = 0% , y = screen_y / 2 : compression = 90%
+
+		float c_percent = 0.8 * (z/540.0) ;
+	// so road is compressed to a % : WR and the middle is at 50% of screen_x
+	// so the current y line on texture is a new line of width WY with WR at middle,
+	// so compute width of the line in pixel and offset of the road
+
+		float new_line_size = 854.0/(1.0-c_percent);
+		float road_width = 854.0 - c_percent * 854.0;
+		float road_offset = floor((new_line_size - road_width)/2.0);
+
+	// compute current x pos (fragment) in % to screen_x : XPPOS
+
+		float xppos = UV.x / 854.0;
+	// get the x pos in the new line => x_nl_pos
+
+		float x_nl_pos = new_line_size * xppos;
+
+// Operations with X bézier curve
+
+	// Compute dx position with z
+
+		float t_z = get_t(X_x,z/540.0);
+		float dx = B_t(X_y,t_z)*854.0;
+
+	// Apply dx to road offset
+		road_offset += dx;
+
+		if(x_nl_pos >= road_offset && x_nl_pos < road_offset + road_width && z > 0.0){
+			uv.x = ((x_nl_pos - road_offset)/road_width);
+
+			c = texture(road_texture,uv);
+			//c = vec4(1.0);
+		}
+		
+		//c = vec4(z/540.0);
+
+
+	}
+
+	COLOR = c;
+
+
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/Z_x = Plane( 0, 0.5, 0.5, 1 )
+shader_param/Z_y = Plane( 0, 0.5, 0.5, 1 )
+shader_param/X_x = Vector3( 0, 0, 1 )
+shader_param/X_y = Vector3( 0, 0, 0 )
+shader_param/delta = null
+shader_param/road_texture = ExtResource( 1 )
+
+[node name="road" type="Node2D"]
+
+[node name="plane" type="Polygon2D" parent="."]
+material = SubResource( 2 )
+polygon = PoolVector2Array( 0, 0, 854, 0, 854, 480, 0, 480 )
+script = ExtResource( 2 )
