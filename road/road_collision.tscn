@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="PhysicsMaterial" id=1]
+
+[node name="roadCollision" type="StaticBody2D"]
+physics_material_override = SubResource( 1 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( 100, 300, 100, 435, 130, 435, 150, 445, 704, 445, 724, 435, 754, 435, 754, 300, 854, 300, 854, 480, 0, 480, 0, 300 )

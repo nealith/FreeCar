@@ -21,6 +21,8 @@ func _process(delta):
 	
 	var v = sin(t)
 	
-	#self.material.set_shader_param("X_y_a",Vector2(0.0,v))
-	#self.material.set_shader_param("X_y_b",Vector2(-v/2.0,-4*v))
+	self.material.set_shader_param("X_y_a",Vector2(0.0,v))
+	self.material.set_shader_param("X_y_b",Vector2(-v/2.0,-4*v))
+	Physics2DServer.area_set_param(get_world_2d().get_space(), Physics2DServer.AREA_PARAM_GRAVITY_VECTOR, Vector2(v,1))
+	
 	
