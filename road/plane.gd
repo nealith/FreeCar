@@ -23,6 +23,13 @@ func _process(delta):
 	
 	self.material.set_shader_param("X_y_a",Vector2(0.0,v))
 	self.material.set_shader_param("X_y_b",Vector2(-v/2.0,-4*v))
-	Physics2DServer.area_set_param(get_world_2d().get_space(), Physics2DServer.AREA_PARAM_GRAVITY_VECTOR, Vector2(v,1))
+	
+	var g = 0.0
+	if v > 0.1:
+		g = 1.0
+	elif v < -0.1:
+		g = -1.0
+	
+	Physics2DServer.area_set_param(get_world_2d().get_space(), Physics2DServer.AREA_PARAM_GRAVITY_VECTOR, Vector2(g,1))
 	
 	
