@@ -26,9 +26,9 @@ func _process(delta):
 	
 	var g = 0.0
 	if v > 0.1:
-		g = 1.0
+		g = min(1.0,v+0.5)
 	elif v < -0.1:
-		g = -1.0
+		g = max(-1.0,v-0.5)
 	
 	Physics2DServer.area_set_param(get_world_2d().get_space(), Physics2DServer.AREA_PARAM_GRAVITY_VECTOR, Vector2(g,1))
 	

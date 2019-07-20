@@ -7,7 +7,7 @@ const WALK_FORCE = 800
 const WALK_MIN_SPEED = 10
 const WALK_MAX_SPEED = 800
 
-const STOP_FORCE = 800
+const STOP_FORCE = 1000
 
 var velocity = Vector2()
 
@@ -47,19 +47,27 @@ func _physics_process(delta):
 				force.x += WALK_FORCE #* (1+abs(sign(gravity.x)))
 			stop = true
 				
+		var gravity_apply = false
+		
 		if sign(gravity.x) < 0.1:
 			if velocity.x <= lateral_speed_min and velocity.x > -lateral_speed_max:
 				force.x -= GRAVITY
+				gravity_apply = true
 		elif sign(gravity.x) > 0.1:
 			if velocity.x >= -lateral_speed_min and velocity.x < lateral_speed_max:
 				force.x += GRAVITY
+				gravity_apply = true
 				
 		if stop == true:
 			
 			var vsign = sign(velocity.x)
 			var vlen = abs(velocity.x)
 			
-			vlen -= STOP_FORCE * delta
+			if gravity_apply == true  and sign(velocity.x) != sign(gravity.x):
+				vlen -= STOP_FORCE * 2 * delta
+			else:
+				vlen -= STOP_FORCE * delta
+				
 			if vlen < 0:
 				vlen = 0
 			
