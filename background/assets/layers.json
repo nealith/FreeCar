@@ -1,0 +1,78 @@
+{
+    "tilewidth": 2048,
+    "tileswide": 8,
+    "tileheight": 1024,
+    "layers": [
+        {
+            "tiles": [
+                {
+                    "tile": -1,
+                    "y": 0,
+                    "rot": 0,
+                    "flipX": false,
+                    "index": 0,
+                    "x": 0
+                },
+                {
+                    "tile": -1,
+                    "y": 0,
+                    "rot": 0,
+                    "flipX": false,
+                    "index": 1,
+                    "x": 1
+                },
+                {
+                    "tile": -1,
+                    "y": 0,
+                    "rot": 0,
+                    "flipX": false,
+                    "index": 2,
+                    "x": 2
+                },
+                {
+                    "tile": -1,
+                    "y": 0,
+                    "rot": 0,
+                    "flipX": false,
+                    "index": 3,
+                    "x": 3
+                },
+                {
+                    "tile": -1,
+                    "y": 0,
+                    "rot": 0,
+                    "flipX": false,
+                    "index": 4,
+                    "x": 4
+                },
+                {
+                    "tile": -1,
+                    "y": 0,
+                    "rot": 0,
+                    "flipX": false,
+                    "index": 5,
+                    "x": 5
+                },
+                {
+                    "tile": -1,
+                    "y": 0,
+                    "rot": 0,
+                    "flipX": false,
+                    "index": 6,
+                    "x": 6
+                },
+                {
+                    "tile": -1,
+                    "y": 0,
+                    "rot": 0,
+                    "flipX": false,
+                    "index": 7,
+                    "x": 7
+                }
+            ],
+            "name": "Layer 0",
+            "number": 0
+        }
+    ],
+    "tileshigh": 1
+}

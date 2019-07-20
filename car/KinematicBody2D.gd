@@ -9,7 +9,9 @@ const WALK_MAX_SPEED = 800
 
 const STOP_FORCE = 1000
 
-var velocity = Vector2()
+var velocity = Vector2(0,0)
+
+signal camera_movement()
 
 var is_hitten = false
 var is_on_floor = false
@@ -28,6 +30,7 @@ func _physics_process(delta):
 		var left = Input.is_action_pressed("ui_left")
 		var right = Input.is_action_pressed("ui_right")
 		
+		var old_velocity = velocity
 		
 		var gravity = Physics2DServer.area_get_param(get_world_2d().get_space(), Physics2DServer.AREA_PARAM_GRAVITY_VECTOR)
 		
@@ -92,3 +95,15 @@ func _physics_process(delta):
 			is_on_wall = false
 			is_on_ceil = false
 			is_on_floor = false
+			
+		var mov = Vector2(0.0,0.0)
+		
+		if (velocity-old_velocity)*0.1 > Vector2(1.0,1.0):
+			mov = Vector2(1.0,1.0)
+		elif (velocity-old_velocity)*0.1 < Vector2(-1.0,-1.0):
+			mov = Vector2(-1.0,-1.0)
+		else:
+			mov = (velocity-old_velocity)*0.1
+		
+			
+		emit_signal("camera_movement",mov)    
