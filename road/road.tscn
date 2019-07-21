@@ -86,21 +86,13 @@ void fragment(){
 
 	// y = 0 : compression = 0% , y = screen_y / 2 : compression = 90%
 
-		float c_percent = 0.8 * (z/540.0) ;
+		float c_percent = 0.95 * (z/540.0) ;
 	// so road is compressed to a % : WR and the middle is at 50% of screen_x
 	// so the current y line on texture is a new line of width WY with WR at middle,
 	// so compute width of the line in pixel and offset of the road
 
-		float new_line_size = 854.0/(1.0-c_percent);
-		float road_width = 854.0 - c_percent * 854.0;
-		float road_offset = floor((new_line_size - road_width)/2.0);
-
-	// compute current x pos (fragment) in % to screen_x : XPPOS
-
-		float xppos = UV.x / 854.0;
-	// get the x pos in the new line => x_nl_pos
-
-		float x_nl_pos = new_line_size * xppos;
+		float road_width = 854.0 * (1.0-c_percent);
+		float road_offset = (854.0 - road_width)/2.0;
 
 // Operations with X bézier curve
 
@@ -112,8 +104,8 @@ void fragment(){
 	// Apply dx to road offset
 		road_offset += dx;
 
-		if(x_nl_pos >= road_offset && x_nl_pos < road_offset + road_width && z > 0.0){
-			uv.x = ((x_nl_pos - road_offset)/road_width);
+		if(UV.x >= road_offset && UV.x < road_offset + road_width && z > 0.0){
+			uv.x = ((UV.x - road_offset)/road_width);
 
 			c = texture(road_texture,uv);
 			//c = vec4(1.0);
