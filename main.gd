@@ -1,5 +1,7 @@
 extends Node2D
 
+export (PackedScene) var Car
+export (PackedScene) var Road
 export (PackedScene) var RoadBlock
 export (PackedScene) var SpikesStrip
 
@@ -10,6 +12,13 @@ var p = 0.999999999999
 var roadblocks = []
 var spikesstrips = []
 
+var road = null
+var car = null
+
+func game_over():
+	print("gameo_over")
+	deinit()
+
 func random_int(min_value,max_value, inclusive_range = false):
 	if inclusive_range:
 		max_value += 1
@@ -19,17 +28,34 @@ func random_int(min_value,max_value, inclusive_range = false):
 func _roadblock():
 	if roadblocks.size() < 1:
 		var rb = RoadBlock.instance()
-		print("add roadblock")
 		add_child(rb)
+		rb.connect("roadblock_worked",self,"game_over")
 		roadblocks.append({"instance":rb,"distance":random_int(480,1080)})
 
 func _spikesstrip():
 	pass
 
+func init():
+	road = Road.instance()
+	add_child(road)
+	car = Car.instance()
+	add_child(car)
+	car.translate(Vector2(427,455))
+	car.connect("camera_movement",get_node("background"),"_on_car_camera_movement")
+	
+func deinit():
+	remove_child(road)
+	car.disconnect("camera_movement",get_node("background"),"_on_car_camera_movement")
+	remove_child(car)
+	car = null
+	road = null
+	while(roadblocks.size() > 0):
+		remove_child(roadblocks[0]["instance"])
+		roadblocks.remove(0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	init()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -45,7 +71,7 @@ func _process(delta):
 	var to_remove = []
 	var i = 0
 	for roadblock in roadblocks:
-		roadblock["distance"] -= delta*100
+		roadblock["distance"] -= delta*50
 		
 		if(roadblock["distance"] < 240):
 			if (roadblock["distance"] < 0):
@@ -64,4 +90,5 @@ func _process(delta):
 		
 	for tr in to_remove:
 		print("remove roablock")
+		remove_child(roadblocks[tr]["instance"])
 		roadblocks.remove(tr)

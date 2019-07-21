@@ -1,5 +1,7 @@
 extends Node2D
 
+signal roadblock_worked()
+
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -26,3 +28,15 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
+
+func _on_police_car_roadblock1_collision():
+	emit_signal("roadblock_worked")
+
+
+func _on_police_car_roadblock2_collision():
+	emit_signal("roadblock_worked")
+
+
+func _on_police_car_roadblock3_collision():
+	emit_signal("roadblock_worked")

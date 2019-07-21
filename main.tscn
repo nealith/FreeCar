@@ -1,20 +1,17 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
-[ext_resource path="res://police_car/roadblock.tscn" type="PackedScene" id=2]
-[ext_resource path="res://car/car.tscn" type="PackedScene" id=3]
-[ext_resource path="res://road/road.tscn" type="PackedScene" id=4]
+[ext_resource path="res://car/car.tscn" type="PackedScene" id=2]
+[ext_resource path="res://road/road.tscn" type="PackedScene" id=3]
+[ext_resource path="res://police_car/roadblock.tscn" type="PackedScene" id=4]
 [ext_resource path="res://sound/assets/road_music.ogg" type="AudioStream" id=5]
 [ext_resource path="res://background/background.tscn" type="PackedScene" id=6]
 
 [node name="main" type="Node2D"]
 script = ExtResource( 1 )
-RoadBlock = ExtResource( 2 )
-
-[node name="car" parent="." instance=ExtResource( 3 )]
-position = Vector2( 426.316, 455 )
-
-[node name="road" parent="." instance=ExtResource( 4 )]
+Car = ExtResource( 2 )
+Road = ExtResource( 3 )
+RoadBlock = ExtResource( 4 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
@@ -23,4 +20,3 @@ autoplay = true
 [node name="background" parent="." instance=ExtResource( 6 )]
 editor/display_folded = true
 position = Vector2( -3.25803, 17.1046 )
-[connection signal="camera_movement" from="car" to="background" method="_on_car_camera_movement"]
