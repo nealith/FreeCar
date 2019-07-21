@@ -6,7 +6,9 @@
 physics_material_override = SubResource( 1 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2( 1.05261, 36.8421 )
 polygon = PoolVector2Array( 150, 300, 150, 445, 704, 445, 704, 300, 854, 300, 854, 480, 0, 480, 0, 300 )
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
+visible = false
 polygon = PoolVector2Array( 148.845, 297.64, 147.618, 446.196, 703.783, 447.424, 703.783, 298.867, 853.567, 298.867, 852.339, 476.889, 0.289154, 480.573, 0.289154, 297.64 )

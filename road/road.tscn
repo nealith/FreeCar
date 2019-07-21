@@ -80,7 +80,7 @@ void fragment(){
 
 	// z is ty on the texture
 
-		uv.y = (z+delta.z)/1080.0;
+		uv.y = 1.0-(z+delta.z)/1080.0;
 
 // Compute x according to y position with compression
 

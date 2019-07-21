@@ -14,6 +14,5 @@ func _ready():
 #func _process(delta):
 #	pass
 
-
 func _on_car_camera_movement(mov):
 	emit_signal("camera_movement",mov)

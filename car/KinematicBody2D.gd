@@ -7,7 +7,7 @@ const WALK_FORCE = 800
 const WALK_MIN_SPEED = 10
 const WALK_MAX_SPEED = 800
 
-const STOP_FORCE = 1000
+const STOP_FORCE = 500
 
 var velocity = Vector2(0,0)
 
@@ -52,11 +52,11 @@ func _physics_process(delta):
 				
 		var gravity_apply = false
 		
-		if sign(gravity.x) < 0.1:
+		if gravity.x < -0.1:
 			if velocity.x <= lateral_speed_min and velocity.x > -lateral_speed_max:
 				force.x -= GRAVITY
 				gravity_apply = true
-		elif sign(gravity.x) > 0.1:
+		elif gravity.x > 0.1:
 			if velocity.x >= -lateral_speed_min and velocity.x < lateral_speed_max:
 				force.x += GRAVITY
 				gravity_apply = true
@@ -80,6 +80,8 @@ func _physics_process(delta):
 		velocity += force * delta
 		# Integrate velocity into motion and move
 		
+		var mov = Vector2(0.0,0.0)
+		
 		var collision = move_and_collide(velocity) 
 		
 		if collision:
@@ -91,19 +93,24 @@ func _physics_process(delta):
 			#	hit()
 				
 			velocity = velocity.slide(collision.normal)
+			
+			mov = collision.travel
+			
 		else:
 			is_on_wall = false
 			is_on_ceil = false
 			is_on_floor = false
 			
-		var mov = Vector2(0.0,0.0)
 		
-		if (velocity-old_velocity)*0.1 > Vector2(1.0,1.0):
-			mov = Vector2(1.0,1.0)
-		elif (velocity-old_velocity)*0.1 < Vector2(-1.0,-1.0):
-			mov = Vector2(-1.0,-1.0)
-		else:
-			mov = (velocity-old_velocity)*0.1
+		
+			if (velocity-old_velocity)*0.1 > Vector2(1.0,1.0):
+				mov = Vector2(1.0,1.0)
+			elif (velocity-old_velocity)*0.1 < Vector2(-1.0,-1.0):
+				mov = Vector2(-1.0,-1.0)
+			else:
+				mov = (velocity-old_velocity)*0.1
+			
+		
 		
 			
-		emit_signal("camera_movement",mov)    
+		emit_signal("camera_movement",-mov)    
