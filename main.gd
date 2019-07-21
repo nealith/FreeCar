@@ -18,6 +18,8 @@ var car = null
 var car_intro = null
 var is_in_car_intro = false
 
+var remove_roadblock = false
+
 var avoided_roadblock_label = "Avoided Roadblock : "
 var avoided_roadblock_count = 0
 
@@ -71,9 +73,7 @@ func deinit_game():
 	remove_child(car)
 	car = null
 	road = null
-	while(roadblocks.size() > 0):
-		remove_child(roadblocks[0]["instance"])
-		roadblocks.remove(0)
+	remove_roadblock = true
 		
 	init_car_introduction(true)
 
@@ -84,8 +84,15 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	
-	if is_in_car_intro == true and Input.is_action_pressed("ui_accept"):
-		init_game()
+	if remove_roadblock == true:
+		while(roadblocks.size() > 0):
+			remove_child(roadblocks[0]["instance"])
+			roadblocks.remove(0)
+		remove_roadblock = false
+	
+	if is_in_car_intro == true :
+		if Input.is_action_pressed("ui_accept"):
+			init_game()
 	else:
 		elapsed_dy_since_last_event += delta/100.0
 		
@@ -121,3 +128,6 @@ func _process(delta):
 			get_node("avoided roadblock").text = avoided_roadblock_label + String(avoided_roadblock_count)
 			remove_child(roadblocks[tr]["instance"])
 			roadblocks.remove(tr)
+
+func _on_AudioStreamPlayer_finished():
+	get_node("AudioStreamPlayer").play()

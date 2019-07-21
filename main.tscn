@@ -5,7 +5,7 @@
 [ext_resource path="res://car/car_introduction.tscn" type="PackedScene" id=3]
 [ext_resource path="res://road/road.tscn" type="PackedScene" id=4]
 [ext_resource path="res://police_car/roadblock.tscn" type="PackedScene" id=5]
-[ext_resource path="res://sound/assets/road_music.ogg" type="AudioStream" id=6]
+[ext_resource path="res://sound/assets/road_music.wav" type="AudioStream" id=6]
 [ext_resource path="res://background/background.tscn" type="PackedScene" id=7]
 [ext_resource path="res://fonts/assets/GreenFlame.ttf" type="DynamicFontData" id=8]
 
@@ -34,3 +34,4 @@ margin_bottom = 65.0
 custom_fonts/font = SubResource( 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Avoided roadblock : 0"
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_AudioStreamPlayer_finished"]

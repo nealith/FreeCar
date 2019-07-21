@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/road_music.wav-a241711c626216d6e14539444ebdcf49.sample"
+
+[deps]
+
+source_file="res://sound/assets/road_music.wav"
+dest_files=[ "res://.import/road_music.wav-a241711c626216d6e14539444ebdcf49.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0
