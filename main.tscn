@@ -1,22 +1,36 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://car/car.tscn" type="PackedScene" id=2]
-[ext_resource path="res://road/road.tscn" type="PackedScene" id=3]
-[ext_resource path="res://police_car/roadblock.tscn" type="PackedScene" id=4]
-[ext_resource path="res://sound/assets/road_music.ogg" type="AudioStream" id=5]
-[ext_resource path="res://background/background.tscn" type="PackedScene" id=6]
+[ext_resource path="res://car/car_introduction.tscn" type="PackedScene" id=3]
+[ext_resource path="res://road/road.tscn" type="PackedScene" id=4]
+[ext_resource path="res://police_car/roadblock.tscn" type="PackedScene" id=5]
+[ext_resource path="res://sound/assets/road_music.ogg" type="AudioStream" id=6]
+[ext_resource path="res://background/background.tscn" type="PackedScene" id=7]
+[ext_resource path="res://fonts/assets/GreenFlame.ttf" type="DynamicFontData" id=8]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 8 )
 
 [node name="main" type="Node2D"]
 script = ExtResource( 1 )
 Car = ExtResource( 2 )
-Road = ExtResource( 3 )
-RoadBlock = ExtResource( 4 )
+CarIntroduction = ExtResource( 3 )
+Road = ExtResource( 4 )
+RoadBlock = ExtResource( 5 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 5 )
+stream = ExtResource( 6 )
 autoplay = true
 
-[node name="background" parent="." instance=ExtResource( 6 )]
+[node name="background" parent="." instance=ExtResource( 7 )]
 editor/display_folded = true
 position = Vector2( -3.25803, 17.1046 )
+
+[node name="avoided roadblock" type="Label" parent="."]
+visible = false
+margin_right = 157.0
+margin_bottom = 65.0
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Avoided roadblock : 0"
